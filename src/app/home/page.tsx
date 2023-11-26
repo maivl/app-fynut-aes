@@ -73,6 +73,7 @@ export default function Home() {
     const [text, setText] = useState('');
     const [key, setKey] = useState('1234567890123456');
     const [iv, setIv] = useState('1234567890123456');
+    const [fileList, setFileList] = useState();
 
     const [resText, setRestText] = useState('');
 
@@ -104,9 +105,13 @@ export default function Home() {
         }
     };
 
-    const handleUpload = async (file: File) => {
-        console.log(file);
-        return true;
+    const handleUpload = async (args: any) => {
+        console.log(args);
+    };
+
+    const handleOnChange = ({ file, fileList, event }: any) => {
+        console.log(file, fileList, event);
+        setFileList(fileList);
     };
 
 
@@ -160,7 +165,10 @@ export default function Home() {
                                         name='file'
                                     >
                                         <div className={styles.file}>
-                                            <Upload listType="picture-card" maxCount={1}>
+                                            <Upload
+                                                customRequest={handleUpload}
+                                                onChange={handleOnChange}
+                                                listType="picture-card" maxCount={1} accept="image/*,audio/*,video/*,text/*,application/*,.zip,.rar,.ppt,.pptx">
                                                 <div>
                                                     <PlusOutlined />
                                                     <div style={{ marginTop: 8 }}>Upload</div>
