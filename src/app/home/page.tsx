@@ -160,7 +160,7 @@ export default function Home() {
                                         name='file'
                                     >
                                         <div className={styles.file}>
-                                            <Upload customRequest={handleUpload} listType="picture-card" maxCount={1}>
+                                            <Upload listType="picture-card" maxCount={1}>
                                                 <div>
                                                     <PlusOutlined />
                                                     <div style={{ marginTop: 8 }}>Upload</div>
