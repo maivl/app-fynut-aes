@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from 'react';
-import { Alert, List, Switch, Form, Input, Button, notification } from 'antd';
-import { FileImageOutlined } from '@ant-design/icons';
+import { Alert, List, Switch, Form, Input, Button, Upload, notification } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 
 const ListItem = List.Item;
@@ -69,7 +69,7 @@ const decodeFile = async () => {
 export default function Home() {
     const [api, contextHolder] = notification.useNotification();
     //
-    const [type, setType] = useState<'text'|'file'>('text');
+    const [type, setType] = useState<'text'|'file'>('file');
     const [text, setText] = useState('');
     const [key, setKey] = useState('1234567890123456');
     const [iv, setIv] = useState('1234567890123456');
@@ -102,6 +102,11 @@ export default function Home() {
         } else {
             const res = await decodeFile();
         }
+    };
+
+    const handleUpload = async (file: File) => {
+        console.log(file);
+        return true;
     };
 
 
@@ -155,7 +160,12 @@ export default function Home() {
                                         name='file'
                                     >
                                         <div className={styles.file}>
-                                            <FileImageOutlined />
+                                            <Upload customRequest={handleUpload} listType="picture-card" maxCount={1}>
+                                                <div>
+                                                    <PlusOutlined />
+                                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                                </div>
+                                            </Upload>
                                         </div>
                                     </Form.Item>
                                 </ListItem>

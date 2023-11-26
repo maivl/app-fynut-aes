@@ -1,5 +1,8 @@
 .page{
     :global{
+        .ant-list-item{
+            border-width: .5px;
+        }
         .ant-switch{
             width:50px;
             height:32px;
