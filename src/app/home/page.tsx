@@ -6,51 +6,43 @@ import styles from './index.module.scss';
 
 const ListItem = List.Item;
 
-const encodeText = async (text: string, key: string, iv: string) => {
-    const key2 = await window.crypto.subtle.importKey(
+const encodeText = async (text: string, rawKey: string, rawIv: string) => {
+    const key = await window.crypto.subtle.importKey(
         "raw",
-        new TextEncoder().encode(key), 
+        new TextEncoder().encode(rawKey), 
         "AES-CBC",
         false,
         ["encrypt", "decrypt"]
     );
 
-    console.log(key2);
-
     const data = new TextEncoder().encode(text);
-
-    const iv2 = new TextEncoder().encode(iv);
-    console.log(iv2);
-      
-    console.log(key2);
 
     const res = await window.crypto.subtle.encrypt(
         {
             name: "AES-CBC",
-            iv: iv2
+            iv: new TextEncoder().encode(rawIv)
         },
-        key2, // 使用上面创建的密钥
-        data // 要加密的数据
+        key,
+        data
     );
     const encryptedRes = btoa(String.fromCharCode(...new Uint8Array(res)));
     return encryptedRes;
 };
-const decodeText = async (base64Text: string, key: string, iv: string) => {
-    const key2 = await window.crypto.subtle.importKey(
+const decodeText = async (base64Text: string, rawKey: string, rawIv: string) => {
+    const key = await window.crypto.subtle.importKey(
         "raw",
-        new TextEncoder().encode(key), 
+        new TextEncoder().encode(rawKey), 
         "AES-CBC",
         false,
         ["encrypt", "decrypt"]
     );
-    const data = new Uint8Array(atob(base64Text).split('').map(c => c.charCodeAt(0)));
-    const iv2 = new TextEncoder().encode(iv);
+    const data = Uint8Array.from(atob(base64Text), c => c.charCodeAt(0));
     const res = await window.crypto.subtle.decrypt(
         {
             name: "AES-CBC",
-            iv: iv2
+            iv: new TextEncoder().encode(rawIv)
         },
-        key2,
+        key,
         data
     );
     const decryptedRes = new TextDecoder().decode(res);
@@ -114,9 +106,6 @@ export default function Home() {
         setFileList(fileList);
     };
 
-
-    console.log('----res: ' + resText);
-
     const switchVal = type === 'file' ? true: false;
 
     return (
@@ -132,7 +121,7 @@ export default function Home() {
                         </ListItem>
                         <ListItem>
                             <Form.Item
-                                label={<div className={styles.label}>密码</div>}
+                                label={<div className={styles.label}>密钥</div>}
                                 name='password'
                             >
                                 <Input placeholder='1234567812345678(默认)' value={key} onChange={(evt) => { setKey(evt.target.value);}} className={styles.input} maxLength={16} />
