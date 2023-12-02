@@ -36,6 +36,8 @@
         color: #ed6a0c
     }
     .body{
+        max-width: 640px;
+        margin: 0 auto;
         padding: 40px 32px;
         .switch{
             margin: 0 auto 32px;
@@ -51,18 +53,24 @@
             box-shadow: none;
         }
         .file{
-            line-height:100px;
+            height: 150px;
             text-align: center;
             font-size: 36px;
             color:#efefef;
         }
-        .res-text{
-            margin: 16px 0;
+        .file-text{
             border:0;
             box-shadow: none;
+            min-height:150px;
+            resize:none;
+            &.res {
+                padding:16px;
+            }
         }
     }
     .footer{
+        max-width: 640px;
+        margin: 0 auto;
         .btn-group{
             text-align: center;
             display: flex;
@@ -74,6 +82,16 @@
                     border-radius: 3px;
                     border-width:.5px;
                 }
+            }
+        }
+        .icp{
+            font-size: 10px;
+            text-align: center;
+            line-height: 30px;
+            padding: 80px 30px 30px;
+            a{
+                color: #1989fa;
+                text-decoration: none;
             }
         }
     }

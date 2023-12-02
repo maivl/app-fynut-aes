@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react';
 import { Alert, List, Switch, Form, Input, Button, Upload, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
 import styles from './index.module.scss';
 
 const ListItem = List.Item;
@@ -65,7 +66,7 @@ export default function Home() {
     const [text, setText] = useState('');
     const [key, setKey] = useState('1234567890123456');
     const [iv, setIv] = useState('1234567890123456');
-    const [fileList, setFileList] = useState();
+    const [fileList, setFileList] = useState<any[]>([]);
 
     const [resText, setRestText] = useState('');
 
@@ -97,16 +98,27 @@ export default function Home() {
         }
     };
 
-    const handleUpload = async (args: any) => {
-        console.log(args);
+    const handleUpload = async ({ file, fileList, event }: any) => {
+        // console.log(file, fileList, event);
+        // setFileList(fileList);
     };
 
-    const handleOnChange = ({ file, fileList, event }: any) => {
+    const handleOnChange = ({ file, fileList = [], event }: any) => {
         console.log(file, fileList, event);
-        setFileList(fileList);
+        const newFileList = fileList.map((item: any) => (
+            {
+                ...item,
+                status: 'done',
+                url: URL.createObjectURL(item.originFileObj),
+                thumbUrl: URL.createObjectURL(item.originFileObj)
+            }
+        ));
+        setFileList(newFileList);
     };
 
     const switchVal = type === 'file' ? true: false;
+
+    console.log(fileList);
 
     return (
         <div className={styles.page}>
@@ -142,7 +154,7 @@ export default function Home() {
                                         label={<div className={styles.label}>文本</div>}
                                         name='text'
                                     >
-                                        <Input placeholder='Text' value={text} onChange={(evt) => { setText(evt.target.value);}} className={styles.input} maxLength={500} />
+                                        <Input.TextArea placeholder='Text' className={styles['file-text']} value={text} onChange={(evt) => { setText(evt.target.value);}} maxLength={500} />
                                     </Form.Item>
                                 </ListItem>
                             )
@@ -157,11 +169,17 @@ export default function Home() {
                                             <Upload
                                                 customRequest={handleUpload}
                                                 onChange={handleOnChange}
-                                                listType="picture-card" maxCount={1} accept="image/*,audio/*,video/*,text/*,application/*,.zip,.rar,.ppt,.pptx">
-                                                <div>
-                                                    <PlusOutlined />
-                                                    <div style={{ marginTop: 8 }}>Upload</div>
-                                                </div>
+                                                listType="picture-card" maxCount={1} accept="image/*,audio/*,video/*,text/*,application/*,.zip,.rar,.ppt,.pptx"
+                                                fileList={fileList}
+                                            >
+                                                {
+                                                    fileList.length >0 ?  null : (
+                                                        <div>
+                                                            <PlusOutlined />
+                                                            <div style={{ marginTop: 8 }}>Upload</div>
+                                                        </div>   
+                                                    )
+                                                }
                                             </Upload>
                                         </div>
                                     </Form.Item>
@@ -170,7 +188,7 @@ export default function Home() {
                         }
                         <Form.Item>
                             <div>
-                                <Input.TextArea value={resText} autoSize className={styles['res-text']} />
+                                <Input.TextArea value={resText} autoSize className={classNames(styles['file-text'], styles.res)} readOnly />
                             </div>
                         </Form.Item>
                     </Form>
@@ -184,6 +202,9 @@ export default function Home() {
                     <div>
                         <Button size='middle' className={styles.btn} onClick={handleDecode}>解密</Button>
                     </div>
+                </div>
+                <div className={styles.icp}>
+                    <a href="javascript:;">@fynut</a>
                 </div>
             </div>
         </div>
