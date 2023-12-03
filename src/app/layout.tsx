@@ -8,13 +8,14 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
     title: 'Aes128加密',
     description: 'Aes128（CBC）加密',
-    icons: null
+    icons: '/favicon.svg'
 };
 
 export const viewport: Viewport = {
     width: 'device-width',
     initialScale: 1,
-    maximumScale: 1
+    maximumScale: 1,
+    userScalable: false
 };
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="icon" href="favicon.svg" />
+                <link rel="icon" href="/favicon.svg" />
             </head>
             <body className={inter.className}>
                 <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
