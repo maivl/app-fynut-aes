@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import StyledComponentsRegistry from '../lib/AntdRegistry';
 import './globals.scss';
@@ -11,6 +11,12 @@ export const metadata: Metadata = {
     icons: null
 };
 
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1
+};
+
 export default function RootLayout({
     children
 }: {
@@ -19,8 +25,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <head>
-                <link rel="icon" href="fleek.fynut.com/c33f0f64-9add-4351-ac8c-c869d382d4f8-bucket/fynut/favicon.svg" />
-                <meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" name="viewport" />
+                <link rel="icon" href="favicon.svg" />
             </head>
             <body className={inter.className}>
                 <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
