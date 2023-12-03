@@ -7,8 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Aes128加密',
-    description: 'Aes128（CBC）加密',
-    icons: '/favicon.svg'
+    description: 'Aes128（CBC）加密'
 };
 
 export const viewport: Viewport = {
@@ -25,9 +24,6 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <head>
-                <link rel="icon" href="/favicon.svg" />
-            </head>
             <body className={inter.className}>
                 <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
             </body>
